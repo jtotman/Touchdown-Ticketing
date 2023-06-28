@@ -306,23 +306,23 @@ namespace Touchdown_Ticketing
                         bool isAvailable = CheckAvailability(selectedDate, selectedSection, selectedRow, selectedSeat);
                         if (isAvailable)
                         {
-                            MessageBox.Show("Seat has not been reserved.");
+                            MessageBox.Show("Seat has not been reserved.", "Release Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                         else
                         {
                             UpdateSeatData(selectedDate, selectedSection, selectedRow, selectedSeat);
-                            MessageBox.Show("Seat released successfully.");
+                            MessageBox.Show("Seat released successfully.", "Release Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
                     }
                     else
                     {
-                        MessageBox.Show("Invalid date format selected.");
+                        MessageBox.Show("Invalid date format selected.", "Date Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
             else
             {
-                MessageBox.Show("No game date selected.");
+                MessageBox.Show("No game date selected.", "Date Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -340,11 +340,16 @@ namespace Touchdown_Ticketing
             {
                 releaseConnection.Open();
                 int releaseSeatsAffected = releaseCommand.ExecuteNonQuery();
-                MessageBox.Show($"Updated {releaseSeatsAffected} seats.");
+                if (releaseSeatsAffected > 0) {
+                    MessageBox.Show($"Updated {releaseSeatsAffected} seats.", "Release Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                } else
+                {
+                    MessageBox.Show("Error: All seats are currently available.", "Release Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: " + ex.Message);
+                MessageBox.Show("Error: " + ex.Message, "Release Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -373,11 +378,11 @@ namespace Touchdown_Ticketing
                 }
 
                 string report = reportBuilder.ToString();
-                MessageBox.Show(report, "Ticket Sales Report");
+                MessageBox.Show(report, "Ticket Sales Report", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error retrieving ticket sales data: " + ex.Message);
+                MessageBox.Show("Error retrieving ticket sales data: " + ex.Message, "Report Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }               
 

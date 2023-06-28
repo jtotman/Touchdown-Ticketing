@@ -85,7 +85,7 @@ namespace Touchdown_Ticketing
             catch (Exception ex)
             {
                 // Displaying an error message if an exception occurs.
-                MessageBox.Show("Error: " + ex.Message);
+                MessageBox.Show("Error: " + ex.Message, "Populate Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -127,7 +127,7 @@ namespace Touchdown_Ticketing
             catch (Exception ex)
             {
                 // Displaying an error message if an exception occurs.
-                MessageBox.Show("Error: " + ex.Message);
+                MessageBox.Show("Error: " + ex.Message, "Populate Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             ComboDiscounts.SelectedIndex = 0;
         }
@@ -167,7 +167,7 @@ namespace Touchdown_Ticketing
             catch (Exception ex)
             {
                 // Displaying an error message if an exception occurs.
-                MessageBox.Show("Error: " + ex.Message);
+                MessageBox.Show("Error: " + ex.Message, "Populate Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -215,7 +215,7 @@ namespace Touchdown_Ticketing
                 catch (Exception ex)
                 {
                     // Displaying an error message if an exception occurs.
-                    MessageBox.Show("Error: " + ex.Message);
+                    MessageBox.Show("Error: " + ex.Message, "Populate Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -268,7 +268,7 @@ namespace Touchdown_Ticketing
                 catch (Exception ex)
                 {
                     // Displaying an error message if an exception occurs.
-                    MessageBox.Show("Error: " + ex.Message);
+                    MessageBox.Show("Error: " + ex.Message, "Populate Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -311,6 +311,7 @@ namespace Touchdown_Ticketing
             // Disabling the buttons 'BtnCheckPrice' and 'BtnSaveSeat'.
             BtnCheckPrice.Enabled = false;
             BtnSaveSeat.Enabled = false;
+            BtnGetTicket.Enabled = false;
 
             // Clearing the labels related to game data.
             lblGameDate.Text = string.Empty;
@@ -398,7 +399,7 @@ namespace Touchdown_Ticketing
             catch (Exception ex)
             {
                 // Displaying an error message if an exception occurs during the update.
-                MessageBox.Show("Error updating seat data: " + ex.Message);
+                MessageBox.Show("Error updating seat data: " + ex.Message, "Seating Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -634,7 +635,7 @@ namespace Touchdown_Ticketing
                             catch (Exception ex)
                             {
                                 // Displaying an error message if an exception occurs.
-                                MessageBox.Show("Error: " + ex.Message);
+                                MessageBox.Show("Error: " + ex.Message, "Price Check Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             }
                         }
                     }
@@ -647,7 +648,7 @@ namespace Touchdown_Ticketing
                 catch (Exception ex)
                 {
                     // Displaying an error message if an exception occurs.
-                    MessageBox.Show("Error: " + ex.Message);
+                    MessageBox.Show("Error: " + ex.Message, "Price Check Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             // Getting the selected section, row, and seat.
@@ -725,7 +726,7 @@ namespace Touchdown_Ticketing
                         bool newAvailability = false;
                         // Calling method 'UpdateSeatData' to update the seat data within the database table with the selected values.
                         UpdateSeatData(seatDate, selectedSection, selectedRow, selectedSeat, newAvailability, selectedDiscount);
-                        MessageBox.Show("Seat secured successfully.");
+                        MessageBox.Show("Seat secured successfully.", "Seat Secured", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         lblAvailable.Text = "Unavailable";
                     }                    
                 }                
@@ -737,6 +738,7 @@ namespace Touchdown_Ticketing
 
         private void BtnGetTicket_Click(object sender, EventArgs e)
         {
+
             // Toggling the visibility of the label responsible for displaying the ticket number.
             lblTicket.Visible = !lblTicket.Visible;
         }
