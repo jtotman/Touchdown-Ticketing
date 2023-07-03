@@ -378,7 +378,7 @@ namespace Touchdown_Ticketing
                 }
 
                 string report = reportBuilder.ToString();
-                MessageBox.Show(report, "Ticket Sales Report", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(report, "Touchdown Ticketing | Ticket Sales Report", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {

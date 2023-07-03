@@ -49,6 +49,7 @@
             BtnGetTicket = new Button();
             ComboGameDates = new ComboBox();
             lblGameDate = new Label();
+            BtnLayout = new Button();
             SuspendLayout();
             // 
             // ComboSections
@@ -242,11 +243,22 @@
             lblGameDate.TabIndex = 23;
             lblGameDate.Text = "Game date (Month, Day, Year)";
             // 
+            // BtnLayout
+            // 
+            BtnLayout.Location = new Point(415, 188);
+            BtnLayout.Name = "BtnLayout";
+            BtnLayout.Size = new Size(133, 51);
+            BtnLayout.TabIndex = 24;
+            BtnLayout.Text = "Show &Layout";
+            BtnLayout.UseVisualStyleBackColor = true;
+            BtnLayout.Click += BtnLayout_Click;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(575, 379);
+            Controls.Add(BtnLayout);
             Controls.Add(lblGameDate);
             Controls.Add(ComboGameDates);
             Controls.Add(lblAvailable);
@@ -300,5 +312,6 @@
         private Button BtnGetTicket;
         private ComboBox ComboGameDates;
         private Label lblGameDate;
+        private Button BtnLayout;
     }
 }

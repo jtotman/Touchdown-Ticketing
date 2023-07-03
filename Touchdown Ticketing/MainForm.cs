@@ -1,5 +1,6 @@
-using System;
 using System.Data.SqlClient;
+using System.Drawing.Imaging;
+using BCrypt;
 
 namespace Touchdown_Ticketing
 {
@@ -8,7 +9,7 @@ namespace Touchdown_Ticketing
         public MainForm()
         {
             InitializeComponent();
-        }              
+        }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
@@ -294,7 +295,7 @@ namespace Touchdown_Ticketing
             // Checking if the label text matches the specified value and updating the enabled
             // state of the button 'BtnSaveSeat' accordingly.
             if (lblAvailable.Text == checkAvailable)
-            {                
+            {
                 BtnSaveSeat.Enabled = false;
             }
             else
@@ -333,7 +334,7 @@ namespace Touchdown_Ticketing
                 // of their respective text and items.
                 ComboSections.Text = string.Empty;
                 ComboSections.Items.Clear();
-                ComboSections.SelectedIndex = -1;                
+                ComboSections.SelectedIndex = -1;
                 ComboRows.Text = string.Empty;
                 ComboRows.Items.Clear();
                 ComboRows.SelectedItem = null;
@@ -443,6 +444,22 @@ namespace Touchdown_Ticketing
 
         }
 
+        private static string ImageToBase64(Image image)
+        {
+            // Creating a new MemoryStream 'memStream' to hold the image data.
+            using MemoryStream memStream = new();
+
+            // Converting the image to bytes and writing it to the memory stream.
+            image.Save(memStream, ImageFormat.Png);
+
+            // Converting the memory stream to a byte array.
+            byte[] imageBytes = memStream.ToArray();
+
+            // Converting the image bytes to Base64 string and returning it.
+            string base64Image = Convert.ToBase64String(imageBytes);
+            return base64Image;
+        }
+
         private void ComboGameDates_SelectedIndexChanged(object sender, EventArgs e)
         {
             // Calling the method 'ClearDataIndexChange(string)' with paramater "Game" for
@@ -516,7 +533,7 @@ namespace Touchdown_Ticketing
             // Else, updating the label 'lblAvailable' to display "Unavailable".
             else
             {
-                lblAvailable.Text = "Unavailable";                
+                lblAvailable.Text = "Unavailable";
             }
 
             // Updating the enabled state of the button 'BtnSaveSeat'.
@@ -728,8 +745,8 @@ namespace Touchdown_Ticketing
                         UpdateSeatData(seatDate, selectedSection, selectedRow, selectedSeat, newAvailability, selectedDiscount);
                         MessageBox.Show("Seat secured successfully.", "Seat Secured", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         lblAvailable.Text = "Unavailable";
-                    }                    
-                }                
+                    }
+                }
             }
             // Updating the enabled state of the buttons 'BtnSaveSeat' and 'BtnGetTicket'.
             UpdateBtnSaveSeatEnabledState();
@@ -752,6 +769,37 @@ namespace Touchdown_Ticketing
             {
                 Application.Exit();
             }
+        }
+
+        private void BtnLayout_Click(object sender, EventArgs e)
+        {
+            // Loading the stadium layout image from a file.
+            Image stadiumImg = Image.FromFile(Constants.StadiumString);
+            // Converting the image to Base64.
+            _ = ImageToBase64(stadiumImg);
+
+            // Creating a new instance of Form 'imageForm' to display the stadium layout.
+            using Form imageForm = new();
+            // Setting the title, size and icon of the form.
+            imageForm.Text = "Touchdown Ticketing | Stadium Layout";
+            imageForm.Size = new Size(930, 575);
+            imageForm.Icon = new(Constants.IconString);
+
+            // Creating a new instance of PictureBox 'stadLayout'.
+            PictureBox stadLayout = new()
+            {
+                // Docking the picture box to fill the form.               
+                Dock = DockStyle.Fill,
+                // Setting the image to be displayed.
+                Image = stadiumImg,
+                // Setting the picture box's size mode to automatically adjust to the image size.
+                SizeMode = PictureBoxSizeMode.AutoSize
+            };
+
+            // Adding the picture box to the form.
+            imageForm.Controls.Add(stadLayout);
+            // Showing the form as a modal dialog.
+            imageForm.ShowDialog();
         }
     }
 }
