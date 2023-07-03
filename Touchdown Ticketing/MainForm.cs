@@ -1,6 +1,5 @@
 using System.Data.SqlClient;
 using System.Drawing.Imaging;
-using BCrypt;
 
 namespace Touchdown_Ticketing
 {

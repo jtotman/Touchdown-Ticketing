@@ -21,22 +21,32 @@ namespace Touchdown_Ticketing
 
         private void PopulateGameDateDropDown()
         {
+            // Getting the MS SQL connection string from public class 'Constants'.
             string dateConnectionString = Constants.ConnectString;
 
+            // Creating a new SqlConnection using the connection string.
             using SqlConnection dateConnection = new(dateConnectionString);
 
+            // Defining the SQL query to retrieve the distinct 'GameDate' values from the
+            // 'Stadium' table in ascending order.
             string dateQuery = "SELECT DISTINCT GameDate FROM Stadium ORDER BY GameDate ASC";
 
+            // Creating a new SqlCommand using the query and connection.
             using SqlCommand dateCommand = new(dateQuery, dateConnection);
 
             try
             {
+                // Opening the connection to the database.
                 dateConnection.Open();
 
+                // Executing the SQL query and retrieving the results.
                 using SqlDataReader dateReader = dateCommand.ExecuteReader();
 
+                // Iterating through the result set.
                 while (dateReader.Read())
                 {
+                    // Formatting the date values then adding them to the combo box 'ComboDateUpdate'
+                    // dropdown.
                     DateTime gameDate = dateReader.GetDateTime(0);
                     string formattedDate = gameDate.ToString("MMM dd, yyyy");
                     ComboDateUpdate.Items.Add(formattedDate);
@@ -44,7 +54,8 @@ namespace Touchdown_Ticketing
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: " + ex.Message);
+                // Displaying an error message if an exception occurs.
+                MessageBox.Show("Error: " + ex.Message, "Populate Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -65,6 +76,7 @@ namespace Touchdown_Ticketing
 
             // Creating a new SqlCommand using the query and connection.
             using SqlCommand sectionCommand = new(sectionQuery, sectionConnection);
+
             try
             {
                 // Opening the connection to the database.
@@ -82,8 +94,8 @@ namespace Touchdown_Ticketing
             }
             catch (Exception ex)
             {
-                // Display an error message if an exception occurs.
-                MessageBox.Show("Error: " + ex.Message);
+                // Displaying an error message if an exception occurs.
+                MessageBox.Show("Error: " + ex.Message, "Populate Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -130,8 +142,8 @@ namespace Touchdown_Ticketing
                 }
                 catch (Exception ex)
                 {
-                    // Display an error message if an exception occurs.
-                    MessageBox.Show("Error: " + ex.Message);
+                    // Displaying an error message if an exception occurs.
+                    MessageBox.Show("Error: " + ex.Message, "Populate Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -184,18 +196,22 @@ namespace Touchdown_Ticketing
                 }
                 catch (Exception ex)
                 {
-                    // Display an error message if an exception occurs.
-                    MessageBox.Show("Error: " + ex.Message);
+                    // Displaying an error message if an exception occurs.
+                    MessageBox.Show("Error: " + ex.Message, "Populate Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
 
         private void ClearDataIndexChange(string comboTypeName)
         {
-            string clearString = comboTypeName;
+            // Storing the type of the combo box as string clearDataString.
+            string clearDataString = comboTypeName;
 
-            if (clearString == "Game")
+            // Checking the clearDataString value to determine which displayed data to clear.
+            if (clearDataString == "Game")
             {
+                // Clearing the combo boxes 'ComboSectionUpdate', 'CombowRowUpdate',
+                // and 'ComboSeatUpdate' of their respective text and items.
                 ComboSectionUpdate.Text = string.Empty;
                 ComboSectionUpdate.Items.Clear();
                 ComboSectionUpdate.SelectedIndex = -1;
@@ -206,8 +222,10 @@ namespace Touchdown_Ticketing
                 ComboSeatUpdate.Items.Clear();
                 ComboSeatUpdate.SelectedItem = null;
             }
-            else if (clearString == "Section")
+            else if (clearDataString == "Section")
             {
+                // Clearing the combo boxes 'CombowRowUpdate' and 'ComboSeatUpdate'
+                // of their respective text and items.
                 ComboRowUpdate.Text = string.Empty;
                 ComboRowUpdate.Items.Clear();
                 ComboRowUpdate.SelectedItem = null;
@@ -215,8 +233,9 @@ namespace Touchdown_Ticketing
                 ComboSeatUpdate.Items.Clear();
                 ComboSeatUpdate.SelectedItem = null;
             }
-            else if (clearString == "Row")
+            else if (clearDataString == "Row")
             {
+                // Clearing the combo box 'ComboSeatUpdate' its text and items.
                 ComboSeatUpdate.Text = string.Empty;
                 ComboSeatUpdate.Items.Clear();
                 ComboSeatUpdate.SelectedItem = null;
@@ -225,14 +244,20 @@ namespace Touchdown_Ticketing
 
         private static void UpdateSeatData(DateTime seatDay, string seatSection, string seatRow, string seatNumber)
         {
+            // Getting the MS SQL connection string from public class 'Constants'.
             string updateSeatConnectionString = Constants.ConnectString;
 
+            // Creating a new SqlConnection using the connection string.
             using SqlConnection updateSeatConnection = new(updateSeatConnectionString);
 
+            // Defining the SQL query to update the seat availability and ticket type in the 'Stadium' table
+            // respective of the game date, section, row, and seat.
             string updateSeatQuery = "UPDATE Stadium SET Availability = 1, TicketType = 'Not Sold' WHERE GameDate = @GameDate AND Section = @Section AND SectionRow = @SectionRow AND SeatNumber = @SeatNumber";
 
+            // Creating a new SqlCommand using the query and connection.
             using SqlCommand updateSeatCommand = new(updateSeatQuery, updateSeatConnection);
 
+            // Setting the paramater values for the query (game date, section, row, and seat).
             updateSeatCommand.Parameters.AddWithValue("@GameDate", seatDay);
             updateSeatCommand.Parameters.AddWithValue("@Section", seatSection);
             updateSeatCommand.Parameters.AddWithValue("@SectionRow", seatRow);
@@ -240,155 +265,217 @@ namespace Touchdown_Ticketing
 
             try
             {
+                // Opening the connection to the database.
                 updateSeatConnection.Open();
+
+                // Executing the SQL query and retrieving the results.
                 updateSeatCommand.ExecuteNonQuery();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error updating seat: " + ex.Message);
+                // Displaying an error message if an exception occurs.
+                MessageBox.Show("Error: " + ex.Message, "Populate Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private static bool CheckAvailability(DateTime seatDay, string seatSection, string seatRow, string seatNumber)
         {
+            // Getting the MS SQL connection string from public class 'Constants'.
             string seatAvailableConnectionString = Constants.ConnectString;
 
+            // Creating a new SqlConnection using the connection string.
             using SqlConnection seatAvailableConnection = new(seatAvailableConnectionString);
 
+            // Defining the SQL query to retrieve availability of a seat from the 'Stadium' table
+            // respective of the game date, section, row, and seat.
             string seatAvailableQuery = "SELECT Availability FROM Stadium WHERE Section = @Section AND SectionRow = @SectionRow AND SeatNumber = @SeatNumber AND GameDate = @GameDate";
 
+            // Creating a new SqlCommand using the query and connection.
             using SqlCommand seatAvailableCommand = new(seatAvailableQuery, seatAvailableConnection);
 
+            // Setting the paramater values for the query (game date, section, row, and seat).
             seatAvailableCommand.Parameters.AddWithValue("@Section", seatSection);
             seatAvailableCommand.Parameters.AddWithValue("@SectionRow", seatRow);
             seatAvailableCommand.Parameters.AddWithValue("@SeatNumber", seatNumber);
             seatAvailableCommand.Parameters.AddWithValue("@GameDate", seatDay);
 
+            // Opening the connection to the database.
             seatAvailableConnection.Open();
 
+            // Executing the SQL query and retrieving the results.
             object seatAvailableResult = seatAvailableCommand.ExecuteScalar();
+
+            // Checking if the seat availability result is not null, not DBNull.Value, and of type bool.
             if (seatAvailableResult != null && seatAvailableResult != DBNull.Value && seatAvailableResult is bool isAvailable)
             {
+                // Returning the value indicating the seat availability.
                 return isAvailable;
             }
             else
             {
+                // Throwing an exception if an error is encountered.
                 throw new Exception("Seat availability could not be determined for the specified parameters.");
             }
         }
 
         private void ComboDateUpdate_SelectedIndexChanged(object sender, EventArgs e)
         {
+            // Calling the method 'ClearDataIndexChange(string)' with paramater "Game" for
+            // decision statement in method to clear the relevant displayed data.
             ClearDataIndexChange("Game");
+            // Calling the method 'PopulateSectionsDropdown()' to populate the combo box
+            // 'ComboSectionUpdate'.
             PopulateSectionsDropdown();
         }
 
         private void ComboSectionUpdate_SelectedIndexChanged(object sender, EventArgs e)
         {
+            // Calling the method 'ClearDataIndexChange(string)' with paramater "Section" for
+            // decision statement in method to clear the relevant displayed data.
             ClearDataIndexChange("Section");
+            // Calling the method 'PopulateRowsDropdown()' to populate the combo box
+            // 'ComboRowUpdate'.
             PopulateRowsDropdown();
         }
 
         private void ComboRowUpdate_SelectedIndexChanged(object sender, EventArgs e)
         {
+            // Calling the method 'ClearDataIndexChange(string)' with paramater "Row" for
+            // decision statement in method to clear the relevant displayed data.
             ClearDataIndexChange("Row");
+            // Calling the method 'PopulateRowsDropdown()' to populate the combo box
+            // 'ComboSeatUpdate'.
             PopulateSeatsDropdown();
         }
 
         private void BtnReleaseSeat_Click(object sender, EventArgs e)
         {
-            if (ComboSectionUpdate.SelectedItem is string selectedSection && ComboRowUpdate.SelectedItem is string selectedRow && ComboSeatUpdate.SelectedItem is string selectedSeat)
+            // Ensuring that a section, row, seat, and date have been selected.
+            // Additionally parsing the date.
+            if (ComboSectionUpdate.SelectedItem is string selectedSection &&
+                ComboRowUpdate.SelectedItem is string selectedRow &&
+                ComboSeatUpdate.SelectedItem is string selectedSeat &&
+                ComboDateUpdate.SelectedItem is string selectedDateStr &&
+                DateTime.TryParse(selectedDateStr, out DateTime selectedDate))
             {
-                if (ComboDateUpdate.SelectedItem is string selectedDateStr)
+                // Checking seat availability.
+                bool isAvailable = CheckAvailability(selectedDate, selectedSection, selectedRow, selectedSeat);
+
+                // Decision statement based on specified seat availability.
+                if (isAvailable)
                 {
-                    if (DateTime.TryParse(selectedDateStr, out DateTime selectedDate))
-                    {
-                        bool isAvailable = CheckAvailability(selectedDate, selectedSection, selectedRow, selectedSeat);
-                        if (isAvailable)
-                        {
-                            MessageBox.Show("Seat has not been reserved.", "Release Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
-                        else
-                        {
-                            UpdateSeatData(selectedDate, selectedSection, selectedRow, selectedSeat);
-                            MessageBox.Show("Seat released successfully.", "Release Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        }
-                    }
-                    else
-                    {
-                        MessageBox.Show("Invalid date format selected.", "Date Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
+                    // Informative message box if the seat has not been reserved.
+                    MessageBox.Show("Seat has not been reserved.", "Touchdown Ticketing | Release Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    // Releasing the seat.
+                    UpdateSeatData(selectedDate, selectedSection, selectedRow, selectedSeat);
+                    MessageBox.Show("Seat released successfully.", "Touchdown Ticketing | Release Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
             else
             {
-                MessageBox.Show("No game date selected.", "Date Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // Displaying an error message if needed.
+                MessageBox.Show("Invalid selection or missing data.", "Touchdown Ticketing | Input Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void BtnReleaseAll_Click(object sender, EventArgs e)
         {
+            // Getting the MS SQL connection string from public class 'Constants'.
             string releaseConnectionString = Constants.ConnectString;
 
+            // Creating a new SqlConnection using the connection string.
             using SqlConnection releaseConnection = new(releaseConnectionString);
 
+            // Defining the SQL query to update the seat availability and ticket type in the 'Stadium' table
+            // for all the seats that are reserved.
             string releaseQuery = "UPDATE Stadium SET Availability = 1, TicketType = 'Not Sold' WHERE Availability = 0";
 
+            // Creating a new SqlCommand using the query and connection.
             using SqlCommand releaseCommand = new(releaseQuery, releaseConnection);
 
             try
             {
+                // Opening the connection to the database.
                 releaseConnection.Open();
+
+                // Executing the SQL query and retrieving the results.
                 int releaseSeatsAffected = releaseCommand.ExecuteNonQuery();
+
+                // Decision statement based on executed query result.
                 if (releaseSeatsAffected > 0) {
+                    // Displaying the number of seats updated.
                     MessageBox.Show($"Updated {releaseSeatsAffected} seats.", "Release Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                } else
+                } 
+                else
                 {
+                    // Displaying informative message if no seats can be released.
                     MessageBox.Show("Error: All seats are currently available.", "Release Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)
             {
+                // Displaying an error message if an exception occurs.
                 MessageBox.Show("Error: " + ex.Message, "Release Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void BtnReport_Click(object sender, EventArgs e)
         {
+            // Getting the MS SQL connection string from public class 'Constants'.
             string reportConnectionString = Constants.ConnectString;
+
+            // Creating a new SqlConnection using the connection string.
+            using SqlConnection reportConnection = new(reportConnectionString);
+
+            // Defining the SQL query to retrieve the number of tickets sold for each game day,
+            // grouped by the ticket type.
             string reportQuery = "SELECT GameDate, TicketType, COUNT(*) AS TotalCount FROM Stadium GROUP BY GameDate, TicketType ORDER BY GameDate, TicketType";
 
-            using SqlConnection reportConnection = new(reportConnectionString);
+            // Creating a new SqlCommand using the query and connection.
             using SqlCommand reportCommand = new(reportQuery, reportConnection);
 
             try
             {
+                // Opening the connection to the database.
                 reportConnection.Open();
 
+                // Executing the SQL query and retrieving the results.
                 using SqlDataReader reportReader = reportCommand.ExecuteReader();
+                
+                // Creating a new instance of StringBuilder 'reportBuilder'.
                 StringBuilder reportBuilder = new();
 
+                // Iterating through the results.
                 while (reportReader.Read())
                 {
+                    // Retrieving the game date, ticket type, and total count from the results.
                     DateTime gameDate = Convert.ToDateTime(reportReader["GameDate"]);
                     string? ticketType = reportReader["TicketType"].ToString();
                     int totalCount = Convert.ToInt32(reportReader["TotalCount"]);
 
+                    // Appending the information to the report string builder.
                     reportBuilder.AppendLine($"Date: {gameDate.ToShortDateString()} | Ticket Type: {ticketType} | Total Count: {totalCount}");
                 }
 
+                // Converting the report string builder to a string and displaying it.
                 string report = reportBuilder.ToString();
                 MessageBox.Show(report, "Touchdown Ticketing | Ticket Sales Report", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
+                // Displaying an error message if an exception occurs.
                 MessageBox.Show("Error retrieving ticket sales data: " + ex.Message, "Report Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }               
 
         private void BtnBack_Click(object sender, EventArgs e)
         {
+            // Showing the main form.
             mainForm.Show();
+            // Closing the current form.
             this.Close();
         }
     }
