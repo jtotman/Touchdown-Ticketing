@@ -13,9 +13,11 @@ namespace Touchdown_Ticketing
         private void MainForm_Load(object sender, EventArgs e)
         {
             // Calling methods 'PopulateGameDayDropdown()' and 'PopulateDiscountDropdown()'
-            // in the MainForm_Load event.
+            // in the MainForm_Load event to pre-load dropdown data.
             PopulateGameDayDropdown();
             PopulateDiscountDropdown();
+            // Calling method 'ClearFormData()' to ensure application form is clear on load.
+            ClearFormData();
         }
 
         private void ClearFormData()
@@ -568,7 +570,7 @@ namespace Touchdown_Ticketing
                     {
                         // Converting the result to a double value.
                         double basePrice = Convert.ToDouble(priceResult);
-                        lblSubtotal.Text = "Base ticket price: $" + basePrice.ToString("N2");
+                        lblSubtotal.Text = "$" + basePrice.ToString("N2");
 
                         // Checking if a discount type is selected in the ComboDiscount dropdown.
                         // Retrieving the discount amount based on the selected discount type.
@@ -608,43 +610,43 @@ namespace Touchdown_Ticketing
                                     {
                                         // Displaying discount type ("Student", "Veteran", etc).
                                         discountTypeString = ComboDiscounts.SelectedItem.ToString();
-                                        lblDiscountType.Text = "Discount type: " + discountTypeString;
+                                        lblDiscountType.Text = discountTypeString;
 
                                         // Calculating and displaying the discounted price.
                                         double discountPrice = basePrice * discountPercent;
-                                        lblDiscountPrice.Text = "Updated price: $" + discountPrice.ToString("N2");
+                                        lblDiscountPrice.Text = "$" + discountPrice.ToString("N2");
 
                                         // Calculating and displaying the percentage with regards to
                                         // a discount type.
                                         discountPercent = (100 - (discountPercent * 100));
-                                        lblDiscount.Text = "Discount: " + discountPercent.ToString("N2") + "%";
+                                        lblDiscount.Text = discountPercent.ToString("N2") + "%";
 
                                         // Calculating the displaying the cost in taxes.
                                         double taxAmount = discountPrice * Constants.SalesTax;
-                                        lblTaxes.Text = "Taxes: $" + taxAmount.ToString("N2");
+                                        lblTaxes.Text = "$" + taxAmount.ToString("N2");
 
                                         // Calculating and displaying the total cost of the specific ticket.
                                         double totalPrice = discountPrice + taxAmount;
-                                        lblTotal.Text = "Total: $" + totalPrice.ToString("N2");
+                                        lblTotal.Text = "$" + totalPrice.ToString("N2");
                                     }
                                     // If discount is not applicable.
                                     else
                                     {
                                         // Displaying the discount type (none/Not Applicable).
-                                        discountTypeString = "Discount type: N/A";
+                                        discountTypeString = "N/A";
                                         lblDiscountType.Text = discountTypeString;
 
                                         // Displaying the 'discounted' amount to the user (none).
-                                        lblDiscountPrice.Text = "Updated price: N/A";
-                                        lblDiscount.Text = "Discount: None";
+                                        lblDiscountPrice.Text = "N/A";
+                                        lblDiscount.Text = "None";
 
                                         //  Calculating the displaying cost in taxes.
                                         double taxAmount = basePrice * Constants.SalesTax;
-                                        lblTaxes.Text = "Taxes: $" + taxAmount.ToString("N2");
+                                        lblTaxes.Text = "$" + taxAmount.ToString("N2");
 
                                         // Calculating and displaying the total cost of the specific ticket.
                                         double totalPrice = basePrice + taxAmount;
-                                        lblTotal.Text = "Total: $" + totalPrice.ToString("N2");
+                                        lblTotal.Text = "$" + totalPrice.ToString("N2");
                                     }
                                 }
                             }
@@ -781,7 +783,7 @@ namespace Touchdown_Ticketing
             using Form imageForm = new();
             // Setting the title, size and icon of the form.
             imageForm.Text = "Touchdown Ticketing | Stadium Layout";
-            imageForm.Size = new Size(930, 575);
+            imageForm.Size = new Size(815, 400);
             imageForm.Icon = new(Constants.IconString);
 
             // Creating a new instance of PictureBox 'stadLayout'.
