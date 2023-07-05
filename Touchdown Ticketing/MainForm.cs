@@ -714,6 +714,8 @@ namespace Touchdown_Ticketing
 
         private void BtnAdmin_Click(object sender, EventArgs e)
         {
+            // Clearing form data when user opens administrative form.
+            ClearFormData();
             // Creating an instance of the 'ManageForm' class 'utilForm' with parameter 'this'
             // to reference the current form.
             ManageForm utilForm = new(this);
