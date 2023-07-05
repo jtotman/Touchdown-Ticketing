@@ -405,10 +405,11 @@ namespace Touchdown_Ticketing
                 int releaseSeatsAffected = releaseCommand.ExecuteNonQuery();
 
                 // Decision statement based on executed query result.
-                if (releaseSeatsAffected > 0) {
+                if (releaseSeatsAffected > 0)
+                {
                     // Displaying the number of seats updated.
                     MessageBox.Show($"Updated {releaseSeatsAffected} seats.", "Release Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                } 
+                }
                 else
                 {
                     // Displaying informative message if no seats can be released.
@@ -444,7 +445,7 @@ namespace Touchdown_Ticketing
 
                 // Executing the SQL query and retrieving the results.
                 using SqlDataReader reportReader = reportCommand.ExecuteReader();
-                
+
                 // Creating a new instance of StringBuilder 'reportBuilder'.
                 StringBuilder reportBuilder = new();
 
@@ -469,7 +470,7 @@ namespace Touchdown_Ticketing
                 // Displaying an error message if an exception occurs.
                 MessageBox.Show("Error retrieving ticket sales data: " + ex.Message, "Report Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }               
+        }
 
         private void BtnBack_Click(object sender, EventArgs e)
         {
