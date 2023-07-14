@@ -38,10 +38,10 @@
             BtnReleaseSeat = new Button();
             ComboDateUpdate = new ComboBox();
             groupBox1 = new GroupBox();
-            label1 = new Label();
-            label2 = new Label();
-            label3 = new Label();
             label4 = new Label();
+            label3 = new Label();
+            label2 = new Label();
+            label1 = new Label();
             groupBox1.SuspendLayout();
             SuspendLayout();
             // 
@@ -51,7 +51,7 @@
             BtnBack.Name = "BtnBack";
             BtnBack.Size = new Size(133, 48);
             BtnBack.TabIndex = 0;
-            BtnBack.Text = "Back";
+            BtnBack.Text = "&Back";
             BtnBack.UseVisualStyleBackColor = true;
             BtnBack.Click += BtnBack_Click;
             // 
@@ -87,7 +87,7 @@
             BtnReleaseAll.Name = "BtnReleaseAll";
             BtnReleaseAll.Size = new Size(133, 48);
             BtnReleaseAll.TabIndex = 3;
-            BtnReleaseAll.Text = "Release All Seats";
+            BtnReleaseAll.Text = "Release &All Seats";
             BtnReleaseAll.UseVisualStyleBackColor = true;
             BtnReleaseAll.Click += BtnReleaseAll_Click;
             // 
@@ -97,7 +97,7 @@
             BtnReport.Name = "BtnReport";
             BtnReport.Size = new Size(133, 48);
             BtnReport.TabIndex = 4;
-            BtnReport.Text = "Generate Report";
+            BtnReport.Text = "Generate &Report";
             BtnReport.UseVisualStyleBackColor = true;
             BtnReport.Click += BtnReport_Click;
             // 
@@ -107,7 +107,7 @@
             BtnReleaseSeat.Name = "BtnReleaseSeat";
             BtnReleaseSeat.Size = new Size(133, 48);
             BtnReleaseSeat.TabIndex = 5;
-            BtnReleaseSeat.Text = "Release Seat";
+            BtnReleaseSeat.Text = "&Release Seat";
             BtnReleaseSeat.UseVisualStyleBackColor = true;
             BtnReleaseSeat.Click += BtnReleaseSeat_Click;
             // 
@@ -138,23 +138,14 @@
             groupBox1.TabStop = false;
             groupBox1.Text = " Seat Update Data ";
             // 
-            // label1
+            // label4
             // 
-            label1.AutoSize = true;
-            label1.Location = new Point(12, 21);
-            label1.Name = "label1";
-            label1.Size = new Size(35, 17);
-            label1.TabIndex = 0;
-            label1.Text = "Date";
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Location = new Point(12, 69);
-            label2.Name = "label2";
-            label2.Size = new Size(50, 17);
-            label2.TabIndex = 0;
-            label2.Text = "Section";
+            label4.AutoSize = true;
+            label4.Location = new Point(12, 165);
+            label4.Name = "label4";
+            label4.Size = new Size(33, 17);
+            label4.TabIndex = 0;
+            label4.Text = "Seat";
             // 
             // label3
             // 
@@ -165,14 +156,23 @@
             label3.TabIndex = 0;
             label3.Text = "Row";
             // 
-            // label4
+            // label2
             // 
-            label4.AutoSize = true;
-            label4.Location = new Point(12, 165);
-            label4.Name = "label4";
-            label4.Size = new Size(33, 17);
-            label4.TabIndex = 0;
-            label4.Text = "Seat";
+            label2.AutoSize = true;
+            label2.Location = new Point(12, 69);
+            label2.Name = "label2";
+            label2.Size = new Size(50, 17);
+            label2.TabIndex = 0;
+            label2.Text = "Section";
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(12, 21);
+            label1.Name = "label1";
+            label1.Size = new Size(35, 17);
+            label1.TabIndex = 0;
+            label1.Text = "Date";
             // 
             // ManageForm
             // 
